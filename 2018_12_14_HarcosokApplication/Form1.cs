@@ -46,5 +46,18 @@ namespace _2018_12_14_HarcosokApplication
                 this.Close();
             }
         }
+
+        private void Button_letrehozas_Click(object sender, EventArgs e)
+        {
+            // ---------------------------------------- HARCOS FELVÉTEL ----------------------------------------
+            string Harcos_nev = TextBox_harcos_nev.Text;
+            DateTime Harcos_Regisztralt_datum = DateTime.Now;
+            var Harcos_felvetel = kapcsolodas.CreateCommand();
+            Harcos_felvetel.CommandText = "INSERT INTO harcosok (harcos_nev, harcos_datum_letrehozas) VALUES (@nev, @regdatum)";
+            Harcos_felvetel.Parameters.AddWithValue("@nev", Harcos_nev);
+            Harcos_felvetel.Parameters.AddWithValue("@regdatum", Harcos_Regisztralt_datum);
+            int valami = Harcos_felvetel.ExecuteNonQuery();
+            // -------------------------------------------------------------------------------------------------
+        }
     }
 }

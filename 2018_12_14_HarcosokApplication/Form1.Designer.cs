@@ -92,6 +92,7 @@
             this.Button_letrehozas.TabIndex = 2;
             this.Button_letrehozas.Text = "Lérehozás";
             this.Button_letrehozas.UseVisualStyleBackColor = true;
+            this.Button_letrehozas.Click += new System.EventHandler(this.Button_letrehozas_Click);
             // 
             // GroupBox_kepessegek
             // 
