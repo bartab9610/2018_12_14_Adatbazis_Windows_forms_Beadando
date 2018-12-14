@@ -39,12 +39,15 @@ namespace _2018_12_14_HarcosokApplication
                 var letrehozas = kapcsolodas.CreateCommand();
                 letrehozas.CommandText = Adatbazis_letrehozasa_SQL;
                 letrehozas.ExecuteNonQuery();
+
+                Harcosok();
             }
             catch (MySqlException MySQLEx)
             {
                 MessageBox.Show("Adatbázis hiba: " + MySQLEx.Message);
                 this.Close();
             }
+
         }
 
         private void Button_letrehozas_Click(object sender, EventArgs e)
@@ -68,6 +71,25 @@ namespace _2018_12_14_HarcosokApplication
             Harcos_felvetel.Parameters.AddWithValue("@nev", Harcos_nev);
             Harcos_felvetel.Parameters.AddWithValue("@regdatum", Harcos_Regisztralt_datum);
             int valami = Harcos_felvetel.ExecuteNonQuery();
+            // -------------------------------------------------------------------------------------------------
+
+            Harcosok();
+        }
+        private void Harcosok()
+        {
+            // -.----------------------------------------- LISTÁZÁS --------------------------------------------
+            var Kiirando_harcosok = kapcsolodas.CreateCommand();
+            Kiirando_harcosok.CommandText = "SELECT harcos_nev FROM harcosok";
+            using (var olvaso = Kiirando_harcosok.ExecuteReader())
+            {
+                ComboBox_harcosok_nevei.Items.Clear();
+                while (olvaso.Read())
+                {
+                    var nev = olvaso.GetString("harcos_nev");
+                    ComboBox_harcosok_nevei.Items.Add(String.Format("{0}", nev));
+                    ComboBox_harcosok_nevei.Text = String.Format("{0}", nev);
+                }
+            }
             // -------------------------------------------------------------------------------------------------
         }
     }
