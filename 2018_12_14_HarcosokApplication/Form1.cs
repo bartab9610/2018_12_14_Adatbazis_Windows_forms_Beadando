@@ -49,9 +49,20 @@ namespace _2018_12_14_HarcosokApplication
 
         private void Button_letrehozas_Click(object sender, EventArgs e)
         {
-            // ---------------------------------------- HARCOS FELVÉTEL ----------------------------------------
             string Harcos_nev = TextBox_harcos_nev.Text;
             DateTime Harcos_Regisztralt_datum = DateTime.Now;
+            // ------------------------------------- HIBAKEZELÉS - Meglévő harcos ------------------------------
+            var Meglevo_harcos_nev_ellenorzes = kapcsolodas.CreateCommand();
+            Meglevo_harcos_nev_ellenorzes.CommandText = "SELECT COUNT(*) FROM harcosok WHERE harcos_nev = @meglevo_harcos_nev";
+            Meglevo_harcos_nev_ellenorzes.Parameters.AddWithValue("@meglevo_harcos_nev", Harcos_nev);
+            var darab = (long)Meglevo_harcos_nev_ellenorzes.ExecuteScalar();
+            if (darab != 0)
+            {
+                MessageBox.Show("Ez a harcos már fel van véve az adatbázisban!");
+                return;
+            }
+            // -------------------------------------------------------------------------------------------------
+            // ---------------------------------------- HARCOS FELVÉTEL ----------------------------------------
             var Harcos_felvetel = kapcsolodas.CreateCommand();
             Harcos_felvetel.CommandText = "INSERT INTO harcosok (harcos_nev, harcos_datum_letrehozas) VALUES (@nev, @regdatum)";
             Harcos_felvetel.Parameters.AddWithValue("@nev", Harcos_nev);
