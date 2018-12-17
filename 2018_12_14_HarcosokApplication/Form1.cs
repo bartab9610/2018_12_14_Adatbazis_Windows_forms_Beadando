@@ -43,6 +43,7 @@ namespace _2018_12_14_HarcosokApplication
                 letrehozas.ExecuteNonQuery();
 
                 Harcosok_listazas_combobox();
+                Harcosok_listazas_listbox();
             }
             catch (MySqlException MySQLEx)
             {
@@ -74,6 +75,7 @@ namespace _2018_12_14_HarcosokApplication
             // -------------------------------------------------------------------------------------------------
 
             Harcosok_listazas_combobox();
+            Harcosok_listazas_listbox();
         }
         private void Harcosok_listazas_combobox()
         {
@@ -103,6 +105,21 @@ namespace _2018_12_14_HarcosokApplication
             Kepesseg_felvetel.Parameters.AddWithValue("@kepesseg_leiras", Kepesseg_leiras);
             Kepesseg_felvetel.Parameters.AddWithValue("@harcos_id", Kivalsztott_harcos_id);
             int valami = Kepesseg_felvetel.ExecuteNonQuery();
+        }
+        public void Harcosok_listazas_listbox()
+        {
+            var Kiirando_harcosok = kapcsolodas.CreateCommand();
+            Kiirando_harcosok.CommandText = "SELECT harcos_nev, harcos_datum_letrehozas FROM harcosok";
+            using (var olvasas_listbox_feltoltes = Kiirando_harcosok.ExecuteReader())
+            {
+                ListBox_harcosok.Items.Clear();
+                while (olvasas_listbox_feltoltes.Read())
+                {
+                    var harcos_nev = olvasas_listbox_feltoltes.GetString("harcos_nev");
+                    var harcos_reg_datum = olvasas_listbox_feltoltes.GetDateTime("harcos_datum_letrehozas");
+                    ListBox_harcosok.Items.Add(String.Format("{0} - {1}.{2}.{3}", harcos_nev, harcos_reg_datum.Date.Year, harcos_reg_datum.Date.Month, harcos_reg_datum.Date.Day));
+                }
+            }
         }
     }
 }
