@@ -36,7 +36,7 @@ namespace _2018_12_14_HarcosokApplication
             InitializeComponent();
             try
             {
-                kapcsolodas = new MySqlConnection("Server=localhost;Database=;Uid=root;Pwd=;");
+                kapcsolodas = new MySqlConnection("Server=localhost;Database=;Uid=root;Pwd=;"); // SQL-es adatbázis létrehozásnál a csatlakozásnál üres a Database!!!
                 kapcsolodas.Open();
                 var letrehozas = kapcsolodas.CreateCommand();
                 letrehozas.CommandText = Adatbazis_letrehozasa_SQL;
@@ -49,7 +49,6 @@ namespace _2018_12_14_HarcosokApplication
                 MessageBox.Show("Adatbázis hiba: " + MySQLEx.Message);
                 this.Close();
             }
-
         }
         private void Button_harcos_letrehozas_Click(object sender, EventArgs e)
         {
