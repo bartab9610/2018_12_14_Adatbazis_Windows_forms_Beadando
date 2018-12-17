@@ -33,7 +33,7 @@
             this.Button_harcos_letrehozas = new System.Windows.Forms.Button();
             this.TextBox_harcos_nev = new System.Windows.Forms.TextBox();
             this.GroupBox_kepessegek = new System.Windows.Forms.GroupBox();
-            this.TextBox_kepessek_neve = new System.Windows.Forms.TextBox();
+            this.TextBox_kepesseg_neve = new System.Windows.Forms.TextBox();
             this.Button_kepesseg_hozza_adas = new System.Windows.Forms.Button();
             this.TextBox_kepessegek_leirasa = new System.Windows.Forms.TextBox();
             this.ComboBox_harcosok_nevei = new System.Windows.Forms.ComboBox();
@@ -101,7 +101,7 @@
             // 
             // GroupBox_kepessegek
             // 
-            this.GroupBox_kepessegek.Controls.Add(this.TextBox_kepessek_neve);
+            this.GroupBox_kepessegek.Controls.Add(this.TextBox_kepesseg_neve);
             this.GroupBox_kepessegek.Controls.Add(this.Button_kepesseg_hozza_adas);
             this.GroupBox_kepessegek.Controls.Add(this.TextBox_kepessegek_leirasa);
             this.GroupBox_kepessegek.Controls.Add(this.ComboBox_harcosok_nevei);
@@ -117,13 +117,13 @@
             this.GroupBox_kepessegek.TabStop = false;
             this.GroupBox_kepessegek.Text = "Képesség hozzáadás";
             // 
-            // TextBox_kepessek_neve
+            // TextBox_kepesseg_neve
             // 
-            this.TextBox_kepessek_neve.Location = new System.Drawing.Point(180, 78);
-            this.TextBox_kepessek_neve.Margin = new System.Windows.Forms.Padding(4);
-            this.TextBox_kepessek_neve.Name = "TextBox_kepessek_neve";
-            this.TextBox_kepessek_neve.Size = new System.Drawing.Size(201, 23);
-            this.TextBox_kepessek_neve.TabIndex = 6;
+            this.TextBox_kepesseg_neve.Location = new System.Drawing.Point(180, 78);
+            this.TextBox_kepesseg_neve.Margin = new System.Windows.Forms.Padding(4);
+            this.TextBox_kepesseg_neve.Name = "TextBox_kepesseg_neve";
+            this.TextBox_kepesseg_neve.Size = new System.Drawing.Size(201, 23);
+            this.TextBox_kepesseg_neve.TabIndex = 6;
             // 
             // Button_kepesseg_hozza_adas
             // 
@@ -134,6 +134,7 @@
             this.Button_kepesseg_hozza_adas.TabIndex = 5;
             this.Button_kepesseg_hozza_adas.Text = "Hozzádás";
             this.Button_kepesseg_hozza_adas.UseVisualStyleBackColor = true;
+            this.Button_kepesseg_hozza_adas.Click += new System.EventHandler(this.Button_kepesseg_hozza_adas_Click);
             // 
             // TextBox_kepessegek_leirasa
             // 
@@ -305,7 +306,7 @@
         private System.Windows.Forms.ComboBox ComboBox_harcosok_nevei;
         private System.Windows.Forms.Label Label_kepesseg_neve;
         private System.Windows.Forms.Label Label_harcos_neve;
-        private System.Windows.Forms.TextBox TextBox_kepessek_neve;
+        private System.Windows.Forms.TextBox TextBox_kepesseg_neve;
         private System.Windows.Forms.Button Button_kepesseg_hozza_adas;
         private System.Windows.Forms.GroupBox GroupBox_harcosok_kepessegek_leirasok;
         private System.Windows.Forms.Label Label_harcosok;

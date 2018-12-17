@@ -92,5 +92,17 @@ namespace _2018_12_14_HarcosokApplication
             }
             // -------------------------------------------------------------------------------------------------
         }
+        private void Button_kepesseg_hozza_adas_Click(object sender, EventArgs e)
+        {
+            string Kepesseg_nev = TextBox_kepesseg_neve.Text;
+            string Kepesseg_leiras = TextBox_kepessegek_leirasa.Text;
+            int Kivalsztott_harcos_id = ComboBox_harcosok_nevei.SelectedIndex;
+            var Kepesseg_felvetel = kapcsolodas.CreateCommand();
+            Kepesseg_felvetel.CommandText = "INSERT INTO kepessegek (kepesseg_nev, kepesseg_leiras, harcos_id) VALUES (@kepesseg_nev, @kepesseg_leiras, @harcos_id)";
+            Kepesseg_felvetel.Parameters.AddWithValue("@kepesseg_nev", Kepesseg_nev);
+            Kepesseg_felvetel.Parameters.AddWithValue("@kepesseg_leiras", Kepesseg_leiras);
+            Kepesseg_felvetel.Parameters.AddWithValue("@harcos_id", Kivalsztott_harcos_id);
+            int valami = Kepesseg_felvetel.ExecuteNonQuery();
+        }
     }
 }
