@@ -13,7 +13,9 @@ namespace _2018_12_14_HarcosokApplication
 {
     public partial class Form_harcos_adatbazis : System.Windows.Forms.Form
     {
-        const string Adatbazis_letrehozasa_SQL = @"CREATE TABLE IF NOT EXISTS harcosok
+        const string Adatbazis_letrehozasa_SQL = @"CREATE DATABASE IF NOT EXISTS cs_harcosok CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
+                                                USE cs_harcosok;
+                                                CREATE TABLE IF NOT EXISTS harcosok
                                                         (
                                                             harcos_id INTEGER AUTO_INCREMENT PRIMARY KEY,
                                                             harcos_nev VARCHAR(64) NOT NULL UNIQUE,
@@ -34,13 +36,13 @@ namespace _2018_12_14_HarcosokApplication
             InitializeComponent();
             try
             {
-                kapcsolodas = new MySqlConnection("Server=localhost;Database=cs_harcosok;Uid=root;Pwd=;");
+                kapcsolodas = new MySqlConnection("Server=localhost;Database=;Uid=root;Pwd=;");
                 kapcsolodas.Open();
                 var letrehozas = kapcsolodas.CreateCommand();
                 letrehozas.CommandText = Adatbazis_letrehozasa_SQL;
                 letrehozas.ExecuteNonQuery();
 
-                Harcosok();
+                Harcosok_listazas_combobox();
             }
             catch (MySqlException MySQLEx)
             {
@@ -49,8 +51,7 @@ namespace _2018_12_14_HarcosokApplication
             }
 
         }
-
-        private void Button_letrehozas_Click(object sender, EventArgs e)
+        private void Button_harcos_letrehozas_Click(object sender, EventArgs e)
         {
             string Harcos_nev = TextBox_harcos_nev.Text;
             DateTime Harcos_Regisztralt_datum = DateTime.Now;
@@ -73,9 +74,9 @@ namespace _2018_12_14_HarcosokApplication
             int valami = Harcos_felvetel.ExecuteNonQuery();
             // -------------------------------------------------------------------------------------------------
 
-            Harcosok();
+            Harcosok_listazas_combobox();
         }
-        private void Harcosok()
+        private void Harcosok_listazas_combobox()
         {
             // -.----------------------------------------- LISTÁZÁS --------------------------------------------
             var Kiirando_harcosok = kapcsolodas.CreateCommand();
@@ -87,7 +88,7 @@ namespace _2018_12_14_HarcosokApplication
                 {
                     var nev = olvaso.GetString("harcos_nev");
                     ComboBox_harcosok_nevei.Items.Add(String.Format("{0}", nev));
-                    ComboBox_harcosok_nevei.Text = String.Format("{0}", nev);
+                    ComboBox_harcosok_nevei.Text = String.Format("{0}", nev); // Gomb utána hozzáadás
                 }
             }
             // -------------------------------------------------------------------------------------------------
