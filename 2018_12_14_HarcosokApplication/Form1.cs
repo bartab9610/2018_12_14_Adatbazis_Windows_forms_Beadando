@@ -36,7 +36,7 @@ namespace _2018_12_14_HarcosokApplication
             InitializeComponent();
             try
             {
-                kapcsolodas = new MySqlConnection("Server=localhost;Database=;Uid=root;Pwd=;"); // SQL-es adatbázis létrehozásnál a csatlakozásnál üres a Database!!!
+                kapcsolodas = new MySqlConnection("Server=localhost;Database=;Uid=root;Pwd=;"); // SQL-es adatbázis létrehozásnál a csatlakozásnál üres a Database!!!!!
                 kapcsolodas.Open();
                 var letrehozas = kapcsolodas.CreateCommand();
                 letrehozas.CommandText = Adatbazis_letrehozasa_SQL;
