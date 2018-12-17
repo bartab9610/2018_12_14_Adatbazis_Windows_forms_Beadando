@@ -96,7 +96,7 @@ namespace _2018_12_14_HarcosokApplication
         {
             string Kepesseg_nev = TextBox_kepesseg_neve.Text;
             string Kepesseg_leiras = TextBox_kepessegek_leirasa.Text;
-            int Kivalsztott_harcos_id = ComboBox_harcosok_nevei.SelectedIndex; // 0-tól indul
+            int Kivalsztott_harcos_id = ComboBox_harcosok_nevei.SelectedIndex; // 0-tól indul a harcos_id
             var Kepesseg_felvetel = kapcsolodas.CreateCommand();
             Kepesseg_felvetel.CommandText = "INSERT INTO kepessegek (kepesseg_nev, kepesseg_leiras, harcos_id) VALUES (@kepesseg_nev, @kepesseg_leiras, @harcos_id)";
             Kepesseg_felvetel.Parameters.AddWithValue("@kepesseg_nev", Kepesseg_nev);
