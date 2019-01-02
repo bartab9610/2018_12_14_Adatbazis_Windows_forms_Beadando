@@ -229,9 +229,11 @@
             this.Button_modositas.TabIndex = 6;
             this.Button_modositas.Text = "Módosítás";
             this.Button_modositas.UseVisualStyleBackColor = true;
+            this.Button_modositas.Click += new System.EventHandler(this.Button_modositas_Click);
             // 
             // TextBox_kepesseg_leirasa
             // 
+            this.TextBox_kepesseg_leirasa.Enabled = false;
             this.TextBox_kepesseg_leirasa.Location = new System.Drawing.Point(463, 60);
             this.TextBox_kepesseg_leirasa.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_kepesseg_leirasa.Multiline = true;

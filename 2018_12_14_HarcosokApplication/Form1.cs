@@ -183,5 +183,32 @@ namespace _2018_12_14_HarcosokApplication
         {
             Kepesseg_leiras();
         }
+        private void Button_modositas_Click(object sender, EventArgs e)
+        {
+            string Kepesseg_nev = ListBox_kepessegek.GetItemText(ListBox_kepessegek.SelectedItem);
+            string Uj_Leiras = TextBox_kepesseg_leirasa.Text;
+
+            if (Kepesseg_nev.Length > 0)
+            {
+                TextBox_kepesseg_leirasa.Enabled = true;
+
+                var Kepesseg_leiras_modositas = kapcsolodas.CreateCommand();
+                Kepesseg_leiras_modositas.CommandText = "UPDATE kepessegek SET kepesseg_leiras = @uj_leiras WHERE kepesseg_nev = @kivalasztott_kepesseg";
+                Kepesseg_leiras_modositas.Parameters.AddWithValue("@uj_leiras", Uj_Leiras);
+                Kepesseg_leiras_modositas.Parameters.AddWithValue("@kivalasztott_kepesseg", Kepesseg_nev);
+                using (var leiras_modositas = Kepesseg_leiras_modositas.ExecuteReader())
+                {
+                    while (leiras_modositas.Read())
+                    {
+                        var uj_kepesseg = leiras_modositas.GetString("kepesseg_leiras");
+                        TextBox_kepesseg_leirasa.Text = uj_kepesseg;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Hiba!\nNincs kiválasztva képesség!");
+            }
+        }
     }
 }
