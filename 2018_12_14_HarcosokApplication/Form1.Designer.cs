@@ -48,9 +48,11 @@
             this.Label_kepessesek = new System.Windows.Forms.Label();
             this.ListBox_harcosok = new System.Windows.Forms.ListBox();
             this.Label_harcosok = new System.Windows.Forms.Label();
+            this.NumericUpDown_harcos_id = new System.Windows.Forms.NumericUpDown();
             this.GroupBox_felvetel.SuspendLayout();
             this.GroupBox_kepessegek.SuspendLayout();
             this.GroupBox_harcosok_kepessegek_leirasok.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_harcos_id)).BeginInit();
             this.SuspendLayout();
             // 
             // Label_nev
@@ -101,6 +103,7 @@
             // 
             // GroupBox_kepessegek
             // 
+            this.GroupBox_kepessegek.Controls.Add(this.NumericUpDown_harcos_id);
             this.GroupBox_kepessegek.Controls.Add(this.TextBox_kepesseg_neve);
             this.GroupBox_kepessegek.Controls.Add(this.Button_kepesseg_hozza_adas);
             this.GroupBox_kepessegek.Controls.Add(this.TextBox_kepessegek_leirasa);
@@ -108,6 +111,7 @@
             this.GroupBox_kepessegek.Controls.Add(this.Label_kepesseg_neve);
             this.GroupBox_kepessegek.Controls.Add(this.Label_harcos_neve);
             this.GroupBox_kepessegek.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.GroupBox_kepessegek.ForeColor = System.Drawing.Color.Black;
             this.GroupBox_kepessegek.Location = new System.Drawing.Point(16, 93);
             this.GroupBox_kepessegek.Margin = new System.Windows.Forms.Padding(4);
             this.GroupBox_kepessegek.Name = "GroupBox_kepessegek";
@@ -119,7 +123,7 @@
             // 
             // TextBox_kepesseg_neve
             // 
-            this.TextBox_kepesseg_neve.Location = new System.Drawing.Point(180, 78);
+            this.TextBox_kepesseg_neve.Location = new System.Drawing.Point(155, 81);
             this.TextBox_kepesseg_neve.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox_kepesseg_neve.Name = "TextBox_kepesseg_neve";
             this.TextBox_kepesseg_neve.Size = new System.Drawing.Size(201, 23);
@@ -127,6 +131,7 @@
             // 
             // Button_kepesseg_hozza_adas
             // 
+            this.Button_kepesseg_hozza_adas.ForeColor = System.Drawing.Color.Black;
             this.Button_kepesseg_hozza_adas.Location = new System.Drawing.Point(141, 116);
             this.Button_kepesseg_hozza_adas.Margin = new System.Windows.Forms.Padding(4);
             this.Button_kepesseg_hozza_adas.Name = "Button_kepesseg_hozza_adas";
@@ -145,11 +150,12 @@
             this.TextBox_kepessegek_leirasa.Size = new System.Drawing.Size(297, 102);
             this.TextBox_kepessegek_leirasa.TabIndex = 4;
             this.TextBox_kepessegek_leirasa.Text = "Leírás:";
+            this.TextBox_kepessegek_leirasa.Click += new System.EventHandler(this.TextBox_kepessegek_leirasa_Click);
             // 
             // ComboBox_harcosok_nevei
             // 
             this.ComboBox_harcosok_nevei.FormattingEnabled = true;
-            this.ComboBox_harcosok_nevei.Location = new System.Drawing.Point(180, 37);
+            this.ComboBox_harcosok_nevei.Location = new System.Drawing.Point(135, 33);
             this.ComboBox_harcosok_nevei.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBox_harcosok_nevei.Name = "ComboBox_harcosok_nevei";
             this.ComboBox_harcosok_nevei.Size = new System.Drawing.Size(201, 25);
@@ -158,6 +164,7 @@
             // Label_kepesseg_neve
             // 
             this.Label_kepesseg_neve.AutoSize = true;
+            this.Label_kepesseg_neve.ForeColor = System.Drawing.Color.Black;
             this.Label_kepesseg_neve.Location = new System.Drawing.Point(23, 84);
             this.Label_kepesseg_neve.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label_kepesseg_neve.Name = "Label_kepesseg_neve";
@@ -168,6 +175,7 @@
             // Label_harcos_neve
             // 
             this.Label_harcos_neve.AutoSize = true;
+            this.Label_harcos_neve.ForeColor = System.Drawing.Color.Black;
             this.Label_harcos_neve.Location = new System.Drawing.Point(23, 41);
             this.Label_harcos_neve.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Label_harcos_neve.Name = "Label_harcos_neve";
@@ -274,6 +282,13 @@
             this.Label_harcosok.TabIndex = 0;
             this.Label_harcosok.Text = "Harcosok";
             // 
+            // NumericUpDown_harcos_id
+            // 
+            this.NumericUpDown_harcos_id.Location = new System.Drawing.Point(347, 35);
+            this.NumericUpDown_harcos_id.Name = "NumericUpDown_harcos_id";
+            this.NumericUpDown_harcos_id.Size = new System.Drawing.Size(50, 23);
+            this.NumericUpDown_harcos_id.TabIndex = 7;
+            // 
             // Form_harcos_adatbazis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -283,6 +298,9 @@
             this.Controls.Add(this.GroupBox_kepessegek);
             this.Controls.Add(this.GroupBox_felvetel);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(770, 642);
+            this.MinimumSize = new System.Drawing.Size(770, 642);
             this.Name = "Form_harcos_adatbazis";
             this.Text = "Harcosok adatbázis";
             this.GroupBox_felvetel.ResumeLayout(false);
@@ -291,6 +309,7 @@
             this.GroupBox_kepessegek.PerformLayout();
             this.GroupBox_harcosok_kepessegek_leirasok.ResumeLayout(false);
             this.GroupBox_harcosok_kepessegek_leirasok.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_harcos_id)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -317,6 +336,7 @@
         private System.Windows.Forms.Label Label_kepesseg_leirasa;
         private System.Windows.Forms.ListBox ListBox_kepessegek;
         private System.Windows.Forms.Label Label_kepessesek;
+        private System.Windows.Forms.NumericUpDown NumericUpDown_harcos_id;
     }
 }
 
