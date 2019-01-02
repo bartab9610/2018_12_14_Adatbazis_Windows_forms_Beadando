@@ -33,6 +33,7 @@
             this.Button_harcos_letrehozas = new System.Windows.Forms.Button();
             this.TextBox_harcos_nev = new System.Windows.Forms.TextBox();
             this.GroupBox_kepessegek = new System.Windows.Forms.GroupBox();
+            this.NumericUpDown_harcos_id = new System.Windows.Forms.NumericUpDown();
             this.TextBox_kepesseg_neve = new System.Windows.Forms.TextBox();
             this.Button_kepesseg_hozza_adas = new System.Windows.Forms.Button();
             this.TextBox_kepessegek_leirasa = new System.Windows.Forms.TextBox();
@@ -48,11 +49,10 @@
             this.Label_kepessesek = new System.Windows.Forms.Label();
             this.ListBox_harcosok = new System.Windows.Forms.ListBox();
             this.Label_harcosok = new System.Windows.Forms.Label();
-            this.NumericUpDown_harcos_id = new System.Windows.Forms.NumericUpDown();
             this.GroupBox_felvetel.SuspendLayout();
             this.GroupBox_kepessegek.SuspendLayout();
-            this.GroupBox_harcosok_kepessegek_leirasok.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_harcos_id)).BeginInit();
+            this.GroupBox_harcosok_kepessegek_leirasok.SuspendLayout();
             this.SuspendLayout();
             // 
             // Label_nev
@@ -120,6 +120,13 @@
             this.GroupBox_kepessegek.TabIndex = 2;
             this.GroupBox_kepessegek.TabStop = false;
             this.GroupBox_kepessegek.Text = "Képesség hozzáadás";
+            // 
+            // NumericUpDown_harcos_id
+            // 
+            this.NumericUpDown_harcos_id.Location = new System.Drawing.Point(347, 35);
+            this.NumericUpDown_harcos_id.Name = "NumericUpDown_harcos_id";
+            this.NumericUpDown_harcos_id.Size = new System.Drawing.Size(50, 23);
+            this.NumericUpDown_harcos_id.TabIndex = 7;
             // 
             // TextBox_kepesseg_neve
             // 
@@ -251,6 +258,7 @@
             this.ListBox_kepessegek.Name = "ListBox_kepessegek";
             this.ListBox_kepessegek.Size = new System.Drawing.Size(207, 242);
             this.ListBox_kepessegek.TabIndex = 3;
+            this.ListBox_kepessegek.SelectedIndexChanged += new System.EventHandler(this.ListBox_kepessegek_SelectedIndexChanged);
             // 
             // Label_kepessesek
             // 
@@ -282,13 +290,6 @@
             this.Label_harcosok.TabIndex = 0;
             this.Label_harcosok.Text = "Harcosok";
             // 
-            // NumericUpDown_harcos_id
-            // 
-            this.NumericUpDown_harcos_id.Location = new System.Drawing.Point(347, 35);
-            this.NumericUpDown_harcos_id.Name = "NumericUpDown_harcos_id";
-            this.NumericUpDown_harcos_id.Size = new System.Drawing.Size(50, 23);
-            this.NumericUpDown_harcos_id.TabIndex = 7;
-            // 
             // Form_harcos_adatbazis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -307,9 +308,9 @@
             this.GroupBox_felvetel.PerformLayout();
             this.GroupBox_kepessegek.ResumeLayout(false);
             this.GroupBox_kepessegek.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_harcos_id)).EndInit();
             this.GroupBox_harcosok_kepessegek_leirasok.ResumeLayout(false);
             this.GroupBox_harcosok_kepessegek_leirasok.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_harcos_id)).EndInit();
             this.ResumeLayout(false);
 
         }

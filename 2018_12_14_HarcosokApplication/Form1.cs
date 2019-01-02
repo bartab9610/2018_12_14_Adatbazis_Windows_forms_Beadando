@@ -44,6 +44,7 @@ namespace _2018_12_14_HarcosokApplication
 
                 Harcosok_listazas_combobox();
                 Harcosok_listazas_listbox();
+                Kepesseg_kiiras_listbox();
             }
             catch (MySqlException MySQLEx)
             {
@@ -116,6 +117,8 @@ namespace _2018_12_14_HarcosokApplication
                 int valami = Kepesseg_felvetel.ExecuteNonQuery();
 
                 TextBox_kepessegek_leirasa.Text = "";
+
+                Kepesseg_kiiras_listbox();
             }
             else
             {
@@ -138,10 +141,47 @@ namespace _2018_12_14_HarcosokApplication
                     ListBox_harcosok.Items.Add(String.Format("{0} - {1} - {2}.{3}.{4}", harcos_id, harcos_nev, harcos_reg_datum.Date.Year, harcos_reg_datum.Date.Month, harcos_reg_datum.Date.Day));
                 }
             }
-        } // C1-es feladat van!
+        }
+        public void Kepesseg_kiiras_listbox()
+        {
+            var Kiirando_kepesseg_nev = kapcsolodas.CreateCommand();
+            Kiirando_kepesseg_nev.CommandText = "SELECT kepesseg_nev FROM kepessegek";
+            using (var kepesseg_nev_olvasas = Kiirando_kepesseg_nev.ExecuteReader())
+            {
+                ListBox_kepessegek.Items.Clear();
+                while (kepesseg_nev_olvasas.Read())
+                {
+
+                    var kepesseg_nev = kepesseg_nev_olvasas.GetString("kepesseg_nev");
+                    ListBox_kepessegek.Items.Add(String.Format("{0}", kepesseg_nev));
+                }
+            }
+        }
+        public void Kepesseg_leiras()
+        {
+            string Kepesseg_leiras = ListBox_kepessegek.GetItemText(ListBox_kepessegek.SelectedItem);
+
+            var Kiirando_kepesseg_leiras = kapcsolodas.CreateCommand();
+            Kiirando_kepesseg_leiras.CommandText = "SELECT kepesseg_leiras FROM kepessegek WHERE kepesseg_nev = @kepessegnev";
+            Kiirando_kepesseg_leiras.Parameters.AddWithValue("@kepessegnev", Kepesseg_leiras);
+            using (var kepesseg_kiolvasas = Kiirando_kepesseg_leiras.ExecuteReader())
+            {
+                TextBox_kepesseg_leirasa.Text = "";
+                while (kepesseg_kiolvasas.Read())
+                {
+                    var kepesseg_leiras = kepesseg_kiolvasas.GetString("kepesseg_leiras");
+                    TextBox_kepesseg_leirasa.Text = kepesseg_leiras;
+                }
+            }
+        }
         private void TextBox_kepessegek_leirasa_Click(object sender, EventArgs e)
         {
             TextBox_kepessegek_leirasa.Text = "";
+        }
+
+        private void ListBox_kepessegek_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Kepesseg_leiras();
         }
     }
 }
