@@ -219,6 +219,7 @@
             this.Button_torles.TabIndex = 7;
             this.Button_torles.Text = "Törlés";
             this.Button_torles.UseVisualStyleBackColor = true;
+            this.Button_torles.Click += new System.EventHandler(this.Button_torles_Click);
             // 
             // Button_modositas
             // 

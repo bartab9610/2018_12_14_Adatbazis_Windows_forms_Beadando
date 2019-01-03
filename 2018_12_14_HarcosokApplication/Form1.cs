@@ -207,7 +207,32 @@ namespace _2018_12_14_HarcosokApplication
             }
             else
             {
-                MessageBox.Show("Hiba!\nNincs kiválasztva képesség!");
+                MessageBox.Show("Hiba!\nNincs kiválasztva képesség, nem tudok módosítani!");
+            }
+        }
+        private void Button_torles_Click(object sender, EventArgs e)
+        {
+            string Kepesseg_torles = ListBox_kepessegek.GetItemText(ListBox_kepessegek.SelectedItem);
+
+            if (Kepesseg_torles.Length > 0)
+            {
+                Kepesseg_kiiras_listbox();
+
+                var Kepesseg_torles_kivalasztas = kapcsolodas.CreateCommand();
+                Kepesseg_torles_kivalasztas.CommandText = "DELETE FROM kepessegek WHERE kepesseg_nev = '" + Kepesseg_torles + "'";
+                using (var torles = Kepesseg_torles_kivalasztas.ExecuteReader())
+                {
+                    while (torles.Read())
+                    {
+                        var kepesseg_torles = torles.GetString("kepesseg_nev");
+                    }
+                }
+                Kepesseg_kiiras_listbox();
+                Kepesseg_leiras(); // kitörölt képességnél a leírás is üres lesz!
+            }
+            else
+            {
+                MessageBox.Show("Hiba!\nNincs kiválasztott képesség, nem tudok törölni!");
             }
         }
     }
