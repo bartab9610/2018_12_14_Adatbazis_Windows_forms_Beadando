@@ -44,7 +44,6 @@ namespace _2018_12_14_HarcosokApplication
 
                 Harcosok_listazas_combobox();
                 Harcosok_listazas_listbox();
-                Kepesseg_kiiras_listbox();
             }
             catch (MySqlException MySQLEx)
             {
@@ -109,6 +108,17 @@ namespace _2018_12_14_HarcosokApplication
                 int Kivalasztott_harcos_id = (int)NumericUpDown_harcos_id.Value;
                 // int Kivalasztott_harcos_id = ComboBox_harcosok_nevei.SelectedIndex + 1; // SelectedIndex + 1 -> alapból 0-től indul
 
+                // ----------------------------------- MEGLÉVŐ KÉPESSÉG HIBAKEZELÉS -----------------------------------
+                var Letezo_kepesseg = kapcsolodas.CreateCommand();
+                Letezo_kepesseg.CommandText = "SELECT COUNT(*) FROM kepessegek WHERE kepesseg_nev = @meglevo_kepesseg_nev";
+                Letezo_kepesseg.Parameters.AddWithValue("@meglevo_kepesseg_nev", Kepesseg_nev);
+                var darab = (long)Letezo_kepesseg.ExecuteScalar();
+                if (darab != 0)
+                {
+                    MessageBox.Show("Ez a képesség már létezik! Kétszer nem adható hozzá");
+                    return;
+                }
+                // ------------------------------------------------------------------------------------------------------
                 var Kepesseg_felvetel = kapcsolodas.CreateCommand();
                 Kepesseg_felvetel.CommandText = "INSERT INTO kepessegek (kepesseg_nev, kepesseg_leiras, harcos_id) VALUES (@kepesseg_nev, @kepesseg_leiras, @harcos_id)";
                 Kepesseg_felvetel.Parameters.AddWithValue("@kepesseg_nev", Kepesseg_nev);
@@ -117,8 +127,9 @@ namespace _2018_12_14_HarcosokApplication
                 int valami = Kepesseg_felvetel.ExecuteNonQuery();
 
                 TextBox_kepessegek_leirasa.Text = "";
+                TextBox_kepesseg_neve.Text = "";
 
-                Kepesseg_kiiras_listbox();
+                Kepesseg_kiiras_harcos_valasztassal();
             }
             else
             {
@@ -135,25 +146,43 @@ namespace _2018_12_14_HarcosokApplication
                 ListBox_harcosok.Items.Clear();
                 while (olvasas_listbox_feltoltes.Read())
                 {
-                    int harcos_id = olvasas_listbox_feltoltes.GetInt16("harcos_id");
+                    int harcos_id = olvasas_listbox_feltoltes.GetInt32("harcos_id");
                     var harcos_nev = olvasas_listbox_feltoltes.GetString("harcos_nev");
                     var harcos_reg_datum = olvasas_listbox_feltoltes.GetDateTime("harcos_datum_letrehozas");
-                    ListBox_harcosok.Items.Add(String.Format("{0} - {1} - {2}.{3}.{4}", harcos_id, harcos_nev, harcos_reg_datum.Date.Year, harcos_reg_datum.Date.Month, harcos_reg_datum.Date.Day));
+                    ListBox_harcosok.Items.Add(String.Format("{0} - {1} {2}.{3}.{4}", harcos_id, harcos_nev, harcos_reg_datum.Date.Year, harcos_reg_datum.Date.Month, harcos_reg_datum.Date.Day));
                 }
             }
         }
-        public void Kepesseg_kiiras_listbox()
+        public void Kepesseg_kiiras_harcos_valasztassal()
         {
-            var Kiirando_kepesseg_nev = kapcsolodas.CreateCommand();
-            Kiirando_kepesseg_nev.CommandText = "SELECT kepesseg_nev FROM kepessegek";
-            using (var kepesseg_nev_olvasas = Kiirando_kepesseg_nev.ExecuteReader())
-            {
-                ListBox_kepessegek.Items.Clear();
-                while (kepesseg_nev_olvasas.Read())
-                {
+            string[] Harcos_nev = ListBox_harcosok.GetItemText(ListBox_harcosok.SelectedItem).Split(' ');
 
-                    var kepesseg_nev = kepesseg_nev_olvasas.GetString("kepesseg_nev");
+            var Kiirando_kepesseg = kapcsolodas.CreateCommand();
+            Kiirando_kepesseg.CommandText = "SELECT harcosok.harcos_id, harcosok.harcos_nev, kepesseg_nev FROM kepessegek JOIN harcosok ON harcosok.harcos_id = kepessegek.harcos_id WHERE harcos_nev = '" + Harcos_nev[2] + "'"; // 2 szóköz így a 3. elemet teszi bele
+            using (var kepesseg_olvasas = Kiirando_kepesseg.ExecuteReader())
+            {
+                ListBox_kepessegek.Items.Clear(); // másik harcos választásnál kitörli az előző szöveget és be rakja a kiválasztottét
+                TextBox_kepesseg_leirasa.Clear();
+                TextBox_kepesseg_leirasa.Enabled = false;
+                while (kepesseg_olvasas.Read())
+                {
+                    var kepesseg_nev = kepesseg_olvasas.GetString("kepesseg_nev");
                     ListBox_kepessegek.Items.Add(String.Format("{0}", kepesseg_nev));
+                }
+            }
+            // COMBOBOX-OS NÉV BEHELYETTESÍTÉS
+            string[] Harcos_nev_combobox = ListBox_harcosok.GetItemText(ListBox_harcosok.SelectedItem).Split(' ');
+
+            var Combobox_feltoltes_nevvel = kapcsolodas.CreateCommand();
+            Combobox_feltoltes_nevvel.CommandText = "SELECT harcos_id, harcos_nev FROM harcosok WHERE harcos_nev = '" + Harcos_nev[2] + "'"; // 2 szóköz így a 3. elemet teszi bele
+            using (var combobox_feltoltes = Combobox_feltoltes_nevvel.ExecuteReader())
+            {
+                while (combobox_feltoltes.Read())
+                {
+                    int harcos_id = combobox_feltoltes.GetInt32("harcos_id");
+                    string harcos_nev = combobox_feltoltes.GetString("harcos_nev");
+                    NumericUpDown_harcos_id.Value = harcos_id; // képesség kiválasztáskor a NumericUpDown száma megegyezik a FOREIGN harcos_id-val
+                    ComboBox_harcosok_nevei.Text = harcos_nev; // képesség kiválasztásaokor a harcos nevét betölti a ComboBox-ba
                 }
             }
         }
@@ -162,26 +191,21 @@ namespace _2018_12_14_HarcosokApplication
             string Kepesseg_leiras = ListBox_kepessegek.GetItemText(ListBox_kepessegek.SelectedItem);
 
             var Kiirando_kepesseg_leiras = kapcsolodas.CreateCommand();
-            Kiirando_kepesseg_leiras.CommandText = "SELECT kepesseg_leiras FROM kepessegek WHERE kepesseg_nev = @kepessegnev";
+            Kiirando_kepesseg_leiras.CommandText = "SELECT harcos_nev, harcosok.harcos_id, kepesseg_leiras FROM kepessegek JOIN harcosok ON harcosok.harcos_id = kepessegek.harcos_id WHERE kepesseg_nev = @kepessegnev";
             Kiirando_kepesseg_leiras.Parameters.AddWithValue("@kepessegnev", Kepesseg_leiras);
             using (var kepesseg_kiolvasas = Kiirando_kepesseg_leiras.ExecuteReader())
             {
-                TextBox_kepesseg_leirasa.Text = "";
                 while (kepesseg_kiolvasas.Read())
                 {
+                    TextBox_kepesseg_leirasa.Enabled = false;
+                    int harcos_id = kepesseg_kiolvasas.GetInt32("harcos_id");
+                    var harcos_nev = kepesseg_kiolvasas.GetString("harcos_nev");
                     var kepesseg_leiras = kepesseg_kiolvasas.GetString("kepesseg_leiras");
+                    // NumericUpDown_harcos_id.Value = harcos_id; // képesség kiválasztáskor a NumericUpDown száma megegyezik a FOREIGN harcos_id-val
+                    // ComboBox_harcosok_nevei.Text = harcos_nev; // képesség kiválasztásaokor a harcos nevét betölti a ComboBox-ba
                     TextBox_kepesseg_leirasa.Text = kepesseg_leiras;
                 }
             }
-        }
-        private void TextBox_kepessegek_leirasa_Click(object sender, EventArgs e)
-        {
-            TextBox_kepessegek_leirasa.Text = "";
-        }
-
-        private void ListBox_kepessegek_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Kepesseg_leiras();
         }
         private void Button_modositas_Click(object sender, EventArgs e)
         {
@@ -202,6 +226,7 @@ namespace _2018_12_14_HarcosokApplication
                     {
                         var uj_kepesseg = leiras_modositas.GetString("kepesseg_leiras");
                         TextBox_kepesseg_leirasa.Text = uj_kepesseg;
+                        TextBox_kepesseg_leirasa.Enabled = false;
                     }
                 }
             }
@@ -216,8 +241,6 @@ namespace _2018_12_14_HarcosokApplication
 
             if (Kepesseg_torles.Length > 0)
             {
-                Kepesseg_kiiras_listbox();
-
                 var Kepesseg_torles_kivalasztas = kapcsolodas.CreateCommand();
                 Kepesseg_torles_kivalasztas.CommandText = "DELETE FROM kepessegek WHERE kepesseg_nev = '" + Kepesseg_torles + "'";
                 using (var torles = Kepesseg_torles_kivalasztas.ExecuteReader())
@@ -227,13 +250,25 @@ namespace _2018_12_14_HarcosokApplication
                         var kepesseg_torles = torles.GetString("kepesseg_nev");
                     }
                 }
-                Kepesseg_kiiras_listbox();
                 Kepesseg_leiras(); // kitörölt képességnél a leírás is üres lesz!
+                Kepesseg_kiiras_harcos_valasztassal(); // törlés gomb után elveszi a Listbox_kepessegek-ből a kitöröltet
             }
             else
             {
                 MessageBox.Show("Hiba!\nNincs kiválasztott képesség, nem tudok törölni!");
             }
+        }
+        private void ListBox_harcosok_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Kepesseg_kiiras_harcos_valasztassal();
+        }
+        private void ListBox_kepessegek_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Kepesseg_leiras();
+        }
+        private void TextBox_kepessegek_leirasa_Click(object sender, EventArgs e)
+        {
+            TextBox_kepessegek_leirasa.Text = "";
         }
     }
 }

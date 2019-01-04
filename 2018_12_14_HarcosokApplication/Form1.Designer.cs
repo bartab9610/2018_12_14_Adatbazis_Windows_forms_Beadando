@@ -282,6 +282,7 @@
             this.ListBox_harcosok.Name = "ListBox_harcosok";
             this.ListBox_harcosok.Size = new System.Drawing.Size(207, 242);
             this.ListBox_harcosok.TabIndex = 1;
+            this.ListBox_harcosok.SelectedIndexChanged += new System.EventHandler(this.ListBox_harcosok_SelectedIndexChanged);
             // 
             // Label_harcosok
             // 
